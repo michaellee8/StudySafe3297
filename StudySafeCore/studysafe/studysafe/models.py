@@ -4,9 +4,9 @@ from datetime import timedelta
 
 class Venue(models.Model):
     VENUE_TYPES = (
-        ("LT", "Lecture Theatre"),
-        ("CR", "Classroom"),
-        ("TR", "Tutorial Room"),
+        ('LT', 'Lecture Theatre'),
+        ('CR', 'Classroom'),
+        ('TR', 'Tutorial Room'),
     )
     code = models.CharField(max_length=20, unique=True)
     location = models.CharField(max_length=150)
