@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/StudySafeCore/StudySafeCore.iml" filepath="$PROJECT_DIR$/StudySafeCore/StudySafeCore.iml" />
+      <module fileurl="file://$PROJECT_DIR$/study-safe-trace/study-safe-trace.iml" filepath="$PROJECT_DIR$/study-safe-trace/study-safe-trace.iml" />
+    </modules>
+  </component>
+</project>
