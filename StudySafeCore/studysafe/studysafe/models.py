@@ -33,3 +33,9 @@ class VisitingRecord(models.Model):
     member = models.ForeignKey(Member, on_delete=models.CASCADE)
     entry_datetime = models.DateTimeField(null=True)
     exit_datetime = models.DateTimeField(null=True)
+
+    class Meta:
+        permissions = [
+            ('can_enter_venue', 'Can enter Venue'),
+            ('can_exit_venue', 'Can exit venue'),
+        ]
