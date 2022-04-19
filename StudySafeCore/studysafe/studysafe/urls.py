@@ -27,6 +27,6 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('api-auth/', include('rest_framework.urls')),
     path('studysafe/api/', include(router.urls)),
-    path('studysafe/enter', enter),
-    path('studysafe/exit', exit),
+    path('studysafe/enter/', enter),
+    path('studysafe/exit/', exit),
 ]
