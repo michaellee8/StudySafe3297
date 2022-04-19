@@ -3,7 +3,7 @@ from django.urls import path, include
 from django.contrib.auth.models import User
 from rest_framework import routers, serializers, viewsets
 from .models import Venue, Member, VisitingRecord
-from rest_framework.decorators import api_view, permission_classes, parser_classes,
+from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
 from datetime import datetime
 from .permissions import HasEnterPermission, HasExitPermission
@@ -49,7 +49,6 @@ class EnterExitSerializer(serializers.Serializer):
 
 @api_view(['POST'])
 @permission_classes([HasEnterPermission])
-@parser_classes([EnterExitSerializer])
 def enter(request):
     if not (request.user.has_perm('studysafe.can_enter_venue')):
         return HttpResponse(status=403)
@@ -88,7 +87,6 @@ def enter(request):
 
 @api_view(['POST'])
 @permission_classes([HasExitPermission])
-@parser_classes([EnterExitSerializer])
 def exit(request):
     if not (request.user.has_perm('studysafe.can_exit_venue')):
         return HttpResponse(status=403)
