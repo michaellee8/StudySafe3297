@@ -4,7 +4,7 @@ from rest_framework import serializers, viewsets
 from rest_framework.decorators import api_view, permission_classes
 
 from .models import Venue, Member, VisitingRecord
-from .permissions import HasEnterPermission, HasExitPermission
+from .permissions import HasEnterPermission, HasExitPermission, HasViewVisitingRecordsPermission
 
 
 class VenueSerializer(serializers.HyperlinkedModelSerializer):
@@ -45,12 +45,16 @@ class EnterExitSerializer(serializers.Serializer):
     venue_code = serializers.CharField()
 
 
+class TraceSerializer(serializers.Serializer):
+    hku_id = serializers.CharField()
+    start_datetime = serializers.DateTimeField()
+    end_datetime = serializers.DateTimeField()
+
+
+# noinspection DuplicatedCode
 @api_view(['POST'])
 @permission_classes([HasEnterPermission])
 def enter(request):
-    if not (request.user.has_perm('studysafe.can_enter_venue')):
-        return HttpResponse(status=403)
-
     serializer = EnterExitSerializer(data=request.data)
 
     if not serializer.is_valid():
@@ -89,12 +93,10 @@ def enter(request):
     return HttpResponse(status=204)
 
 
+# noinspection DuplicatedCode
 @api_view(['POST'])
 @permission_classes([HasExitPermission])
 def exit(request):
-    if not (request.user.has_perm('studysafe.can_exit_venue')):
-        return HttpResponse(status=403)
-
     serializer = EnterExitSerializer(data=request.data)
 
     if not serializer.is_valid():
@@ -127,3 +129,18 @@ def exit(request):
             record.save()
 
     return HttpResponse(status=204)
+
+
+@api_view(['GET'])
+@permission_classes([HasViewVisitingRecordsPermission])
+def trace_venue(request):
+    serializer = TraceSerializer(data=request.data)
+
+    if not serializer.is_valid():
+        return HttpResponse(status=400)
+
+    hku_id = serializer.data['hku_id']
+    start_datetime = serializer.data['start_datetime']
+    end_datetime = serializer.data['end_datetime']
+
+    venues_arrived = Venue.objects.filter()

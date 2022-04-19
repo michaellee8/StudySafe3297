@@ -13,3 +13,9 @@ class HasExitPermission(permissions.BasePermission):
     def has_permission(self, request: Request, view: APIView) -> bool:
         user = request.user
         return user.has_perm('can_exit_venue')
+
+
+class HasViewVisitingRecordsPermission(permissions.BasePermission):
+    def has_permission(self, request: Request, view: APIView) -> bool:
+        user = request.user
+        return user.has_perm('view_visitingrecord')
