@@ -1,11 +1,9 @@
 from django.http import HttpResponse
-from django.urls import path, include
-from django.contrib.auth.models import User
-from rest_framework import routers, serializers, viewsets
-from .models import Venue, Member, VisitingRecord
+from django.utils import timezone
+from rest_framework import serializers, viewsets
 from rest_framework.decorators import api_view, permission_classes
-from rest_framework.response import Response
-from datetime import datetime
+
+from .models import Venue, Member, VisitingRecord
 from .permissions import HasEnterPermission, HasExitPermission
 
 
@@ -55,8 +53,14 @@ def enter(request):
 
     serializer = EnterExitSerializer(data=request.data)
 
-    member = Member.objects.get(hku_id=serializer.hku_id)
-    venue = Venue.objects.get(code=serializer.venue_code)
+    if not serializer.is_valid():
+        return HttpResponse(status=400)
+
+    hku_id = serializer.data['hku_id']
+    venue_code = serializer.data['venue_code']
+
+    member = Member.objects.get(hku_id=hku_id)
+    venue = Venue.objects.get(code=venue_code)
 
     existing_non_exited_records = VisitingRecord.objects.filter(
         member=member,
@@ -65,7 +69,7 @@ def enter(request):
         exit_datetime__isnull=True,
     )
 
-    current_datetime = datetime.now()
+    current_datetime = timezone.now()
 
     for record in existing_non_exited_records:
         if record.entry_datetime + VisitingRecord.DEFAULT_DURATION < current_datetime:
@@ -78,7 +82,7 @@ def enter(request):
     VisitingRecord.objects.create(
         venue=venue,
         member=member,
-        entry_datetime=datetime.now(),
+        entry_datetime=timezone.now(),
         exit_datetime=None,
     )
 
@@ -93,8 +97,14 @@ def exit(request):
 
     serializer = EnterExitSerializer(data=request.data)
 
-    member = Member.objects.get(hku_id=serializer.hku_id)
-    venue = Venue.objects.get(code=serializer.venue_code)
+    if not serializer.is_valid():
+        return HttpResponse(status=400)
+
+    hku_id = serializer.data['hku_id']
+    venue_code = serializer.data['venue_code']
+
+    member = Member.objects.get(hku_id=hku_id)
+    venue = Venue.objects.get(code=venue_code)
 
     existing_non_exited_records = VisitingRecord.objects.filter(
         member=member,
@@ -108,12 +118,12 @@ def exit(request):
         VisitingRecord.objects.create(
             venue=venue,
             member=member,
-            entry_datetime=datetime.now() - VisitingRecord.DEFAULT_DURATION,
-            exit_datetime=datetime.now(),
+            entry_datetime=timezone.now() - VisitingRecord.DEFAULT_DURATION,
+            exit_datetime=timezone.now(),
         )
     else:
         for record in existing_non_exited_records:
-            record.exit_datetime = datetime.now()
+            record.exit_datetime = timezone.now()
             record.save()
 
     return HttpResponse(status=204)
