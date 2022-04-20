@@ -139,7 +139,7 @@ REST_FRAMEWORK = {
 }
 
 CSRF_TRUSTED_ORIGINS = [
-    'https://studysafe3297-michaellee8.herokuapp.com/',
+    'https://studysafe3297-michaellee8.herokuapp.com',
     'http://localhost',
     'http://127.0.0.1',
     'http://localhost:8000',
