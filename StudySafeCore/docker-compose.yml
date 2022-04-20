@@ -22,3 +22,8 @@ services:
     environment:
       POSTGRES_PASSWORD: very-secure-password
       POSTGRES_DB: studysafe
+    volumes:
+      - db_data:/var/lib/postgresql/data
+
+volumes:
+  db_data:
