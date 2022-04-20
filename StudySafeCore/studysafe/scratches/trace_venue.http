@@ -1,0 +1,9 @@
+# Trace Venues
+GET http://localhost:8000/studysafe/trace/venue/?hku_id=3036222333&start_datetime=2022-04-19%2015%3A55%3A20&end_datetime=2022-04-19%2017%3A55%3A20
+Accept: application/json
+
+###
+
+# Trace Contacts
+GET http://localhost:8000/studysafe/trace/contacts/?hku_id=3036222333&start_datetime=2022-04-19%2015%3A55%3A20&end_datetime=2022-04-19%2017%3A55%3A20
+Accept: application/json

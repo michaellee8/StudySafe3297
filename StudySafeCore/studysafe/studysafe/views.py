@@ -1,4 +1,4 @@
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from django.utils import timezone
 from rest_framework import serializers, viewsets
 from rest_framework.decorators import api_view, permission_classes
@@ -176,3 +176,25 @@ def trace_venue(request: Request):
 
     venues_arrived = Venue.objects.raw(TRACE_VENUE_SQL,
                                        [hku_id, end_datetime, start_datetime])
+
+    serializer = VenueSerializer(venues_arrived, many=True)
+
+    return JsonResponse(serializer.data, safe=False)
+
+
+@api_view(['GET'])
+@permission_classes([HasViewVisitingRecordsPermission])
+def trace_contacts(request: Request):
+    hku_id = request.query_params['hku_id']
+    start_datetime = request.query_params['start_datetime']
+    end_datetime = request.query_params['end_datetime']
+
+    if hku_id is None or start_datetime is None or end_datetime is None:
+        return HttpResponse(status=400)
+
+    members_arrived = Venue.objects.raw(TRACE_CONTACTS_SQL,
+                                        [hku_id, end_datetime, start_datetime])
+
+    serializer = MemberSerializer(members_arrived, many=True)
+
+    return JsonResponse(serializer.data, safe=False)
