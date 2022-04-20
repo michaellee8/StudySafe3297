@@ -2,6 +2,15 @@ version: '3.1'
 
 services:
 
+  studysafe:
+    build: ./studysafe
+    ports:
+      - "8000:8000"
+    environment:
+      DEBUG: 'false'
+      SECRET_KEY: 'OmX4cmApze0ZxtkhSnKHBPk4bQNOFRDqswYlcDMu'
+      DATABASE_URL: 'postgres://postgres:very-secure-password@db:5432/studysafe'
+
   db:
     image: postgres:14-alpine
     ports:
