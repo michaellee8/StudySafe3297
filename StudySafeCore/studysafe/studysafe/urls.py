@@ -18,6 +18,7 @@ from django.urls import path, include
 from rest_framework import routers
 from .views import MemberViewSet, VenueViewSet, VisitingRecordViewSet, enter, \
     exit, trace_venue, trace_contacts
+from rest_framework.authtoken.views import obtain_auth_token
 
 router = routers.DefaultRouter()
 router.register(r'members', MemberViewSet)
@@ -32,4 +33,5 @@ urlpatterns = [
     path('studysafe/exit/', exit),
     path('studysafe/trace/venue/', trace_venue),
     path('studysafe/trace/contacts/', trace_contacts),
+    path('api-token-auth/', obtain_auth_token),
 ]
