@@ -4,7 +4,6 @@ from django.db import migrations
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ('studysafe', '0001_initial'),
     ]
@@ -12,6 +11,7 @@ class Migration(migrations.Migration):
     operations = [
         migrations.AlterModelOptions(
             name='visitingrecord',
-            options={'permissions': [('can_enter_venue', 'Can enter Venue'), ('can_exit_venue', 'Can exit venue')]},
+            options={'permissions': [('can_enter_venue', 'Can enter venue'),
+                                     ('can_exit_venue', 'Can exit venue')]},
         ),
     ]

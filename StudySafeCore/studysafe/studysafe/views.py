@@ -2,9 +2,42 @@ from django.http import HttpResponse
 from django.utils import timezone
 from rest_framework import serializers, viewsets
 from rest_framework.decorators import api_view, permission_classes
+from rest_framework.request import Request
 
 from .models import Venue, Member, VisitingRecord
-from .permissions import HasEnterPermission, HasExitPermission, HasViewVisitingRecordsPermission
+from .permissions import HasEnterPermission, HasExitPermission, \
+    HasViewVisitingRecordsPermission
+
+# hku_id, end_time, start_time
+TRACE_VENUE_SQL = """
+SELECT DISTINCT sve.id, sve.code, sve.capacity, sve.location
+FROM studysafe_venue sve
+         JOIN studysafe_visitingrecord svr on sve.id = svr.venue_id
+         JOIN studysafe_member sm on sm.id = svr.member_id
+WHERE sm.hku_id = %s
+  AND svr.entry_datetime <= %s
+  AND svr.exit_datetime >= %s
+ORDER BY sve.code ASC
+"""
+
+# hku_id, end_time, start_time
+TRACE_CONTACTS_SQL = """
+SELECT DISTINCT sm.id, sm.hku_id, sm.name
+FROM studysafe_member sm
+         JOIN studysafe_visitingrecord svr on sm.id = svr.member_id
+         JOIN
+     (
+         SELECT svr.venue_id, svr.entry_datetime, svr.exit_datetime
+         FROM studysafe_venue sve
+                  JOIN studysafe_visitingrecord svr on sve.id = svr.venue_id
+                  JOIN studysafe_member sm on sm.id = svr.member_id
+         WHERE sm.hku_id = %s
+           AND svr.entry_datetime <= %s
+           AND svr.exit_datetime >= %s
+     ) tvr ON svr.venue_id = tvr.venue_id
+WHERE svr.entry_datetime <= tvr.exit_datetime
+  AND svr.exit_datetime >= tvr.entry_datetime
+"""
 
 
 class VenueSerializer(serializers.HyperlinkedModelSerializer):
@@ -133,14 +166,13 @@ def exit(request):
 
 @api_view(['GET'])
 @permission_classes([HasViewVisitingRecordsPermission])
-def trace_venue(request):
-    serializer = TraceSerializer(data=request.data)
+def trace_venue(request: Request):
+    hku_id = request.query_params['hku_id']
+    start_datetime = request.query_params['start_datetime']
+    end_datetime = request.query_params['end_datetime']
 
-    if not serializer.is_valid():
+    if hku_id is None or start_datetime is None or end_datetime is None:
         return HttpResponse(status=400)
 
-    hku_id = serializer.data['hku_id']
-    start_datetime = serializer.data['start_datetime']
-    end_datetime = serializer.data['end_datetime']
-
-    venues_arrived = Venue.objects.filter()
+    venues_arrived = Venue.objects.raw(TRACE_VENUE_SQL,
+                                       [hku_id, end_datetime, start_datetime])

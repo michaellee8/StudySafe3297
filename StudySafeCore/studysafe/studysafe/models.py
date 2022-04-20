@@ -36,6 +36,6 @@ class VisitingRecord(models.Model):
 
     class Meta:
         permissions = [
-            ('can_enter_venue', 'Can enter Venue'),
+            ('can_enter_venue', 'Can enter venue'),
             ('can_exit_venue', 'Can exit venue'),
         ]

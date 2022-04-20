@@ -1,4 +1,4 @@
-SELECT DISTINCT sm.hku_id
+SELECT DISTINCT sm.id, sm.hku_id, sm.name
 FROM studysafe_member sm
          JOIN studysafe_visitingrecord svr on sm.id = svr.member_id
          JOIN
