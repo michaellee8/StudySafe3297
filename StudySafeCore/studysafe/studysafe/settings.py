@@ -29,7 +29,11 @@ SECRET_KEY = os.environ.get('SECRET_KEY',
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.environ.get('DEBUG', 'false') == 'true'
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    'localhost',
+    'localhost:8000',
+    'studysafe3297-michaellee8.herokuapp.com',
+]
 
 # Application definition
 
@@ -133,11 +137,5 @@ REST_FRAMEWORK = {
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
     'PAGE_SIZE': 10,
 }
-
-ALLOWED_HOSTS = [
-    'localhost',
-    'localhost:8000',
-    'https://studysafe3297-michaellee8.herokuapp.com/',
-]
 
 STATIC_ROOT = "/var/www/html/static/"
