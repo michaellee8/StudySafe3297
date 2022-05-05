@@ -34,6 +34,8 @@ ALLOWED_HOSTS = [
     'localhost:8000',
     'studysafe3297-michaellee8.herokuapp.com',
     'michaellee8-rookie',
+    'localhost:3000',
+    'studysafetrace.web.app',
 ]
 
 # Application definition
