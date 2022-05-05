@@ -1,5 +1,7 @@
 from django.http import HttpResponse, JsonResponse
 from django.utils import timezone
+from drf_spectacular.utils import extend_schema, OpenApiParameter
+from drf_spectacular.types import OpenApiTypes
 from rest_framework import serializers, viewsets
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.request import Request
@@ -85,6 +87,10 @@ class TraceSerializer(serializers.Serializer):
 
 
 # noinspection DuplicatedCode
+@extend_schema(
+    request=EnterExitSerializer,
+    responses={204: None},
+)
 @api_view(['POST'])
 @permission_classes([HasEnterPermission])
 def enter(request):
@@ -127,6 +133,10 @@ def enter(request):
 
 
 # noinspection DuplicatedCode
+@extend_schema(
+    request=EnterExitSerializer,
+    responses={204: None},
+)
 @api_view(['POST'])
 @permission_classes([HasExitPermission])
 def exit(request):
@@ -164,6 +174,30 @@ def exit(request):
     return HttpResponse(status=204)
 
 
+# noinspection DuplicatedCode
+@extend_schema(
+    parameters=[
+        OpenApiParameter(
+            name='hku_id',
+            type=str,
+            required=True,
+            location=OpenApiParameter.QUERY,
+        ),
+        OpenApiParameter(
+            name='start_datetime',
+            type=OpenApiTypes.DATETIME,
+            required=True,
+            location=OpenApiParameter.QUERY,
+        ),
+        OpenApiParameter(
+            name='end_datetime',
+            type=OpenApiTypes.DATETIME,
+            required=True,
+            location=OpenApiParameter.QUERY,
+        ),
+    ],
+    responses=VenueSerializer(many=True)
+)
 @api_view(['GET'])
 @permission_classes([HasViewVisitingRecordsPermission])
 def trace_venue(request: Request):
@@ -182,6 +216,30 @@ def trace_venue(request: Request):
     return JsonResponse(serializer.data, safe=False)
 
 
+# noinspection DuplicatedCode
+@extend_schema(
+    parameters=[
+        OpenApiParameter(
+            name='hku_id',
+            type=str,
+            required=True,
+            location=OpenApiParameter.QUERY,
+        ),
+        OpenApiParameter(
+            name='start_datetime',
+            type=OpenApiTypes.DATETIME,
+            required=True,
+            location=OpenApiParameter.QUERY,
+        ),
+        OpenApiParameter(
+            name='end_datetime',
+            type=OpenApiTypes.DATETIME,
+            required=True,
+            location=OpenApiParameter.QUERY,
+        ),
+    ],
+    responses=MemberSerializer(many=True)
+)
 @api_view(['GET'])
 @permission_classes([HasViewVisitingRecordsPermission])
 def trace_contacts(request: Request):

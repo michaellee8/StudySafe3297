@@ -33,6 +33,7 @@ ALLOWED_HOSTS = [
     'localhost',
     'localhost:8000',
     'studysafe3297-michaellee8.herokuapp.com',
+    'michaellee8-rookie',
 ]
 
 # Application definition
@@ -47,6 +48,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework.authtoken',
     'studysafe',
+    'drf_spectacular',
 ]
 
 MIDDLEWARE = [
@@ -131,11 +133,11 @@ REST_FRAMEWORK = {
         'rest_framework.permissions.DjangoModelPermissions',
     ],
     'DEFAULT_AUTHENTICATION_CLASSES': [
-        'rest_framework.authentication.SessionAuthentication',
         'rest_framework.authentication.TokenAuthentication',
     ],
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
     'PAGE_SIZE': 10,
+    'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
 }
 
 CSRF_TRUSTED_ORIGINS = [
@@ -145,5 +147,13 @@ CSRF_TRUSTED_ORIGINS = [
     'http://localhost:8000',
     'http://127.0.0.1:8000',
 ]
+
+SPECTACULAR_SETTINGS = {
+    'TITLE': 'StudySafe Core API',
+    'DESCRIPTION': 'API documentation for StudySafe.',
+    'VERSION': '1.0.0',
+    'SERVE_INCLUDE_SCHEMA': False,
+    # OTHER SETTINGS
+}
 
 STATIC_ROOT = "/var/www/html/static/"

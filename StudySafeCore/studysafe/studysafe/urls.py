@@ -19,6 +19,8 @@ from rest_framework import routers
 from .views import MemberViewSet, VenueViewSet, VisitingRecordViewSet, enter, \
     exit, trace_venue, trace_contacts
 from rest_framework.authtoken.views import obtain_auth_token
+from drf_spectacular.views import SpectacularAPIView, SpectacularRedocView, SpectacularSwaggerView
+
 
 router = routers.DefaultRouter()
 router.register(r'members', MemberViewSet)
@@ -34,4 +36,12 @@ urlpatterns = [
     path('studysafe/trace/venue/', trace_venue),
     path('studysafe/trace/contacts/', trace_contacts),
     path('api-token-auth/', obtain_auth_token),
+]
+
+urlpatterns += [
+    # YOUR PATTERNS
+    path('api/schema/', SpectacularAPIView.as_view(), name='schema'),
+    # Optional UI:
+    path('api/schema/swagger-ui/', SpectacularSwaggerView.as_view(url_name='schema'), name='swagger-ui'),
+    path('api/schema/redoc/', SpectacularRedocView.as_view(url_name='schema'), name='redoc'),
 ]
