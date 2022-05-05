@@ -1,6 +1,9 @@
 import { createTheme } from "@mui/material";
 import React from "react";
-import { Link as RouterLink, LinkProps as RouterLinkProps } from "react-router-dom";
+import {
+  Link as RouterLink,
+  LinkProps as RouterLinkProps,
+} from "react-router-dom";
 
 export const LinkBehavior = React.forwardRef<
   any,
@@ -15,6 +18,7 @@ export const theme = createTheme({
   components: {
     MuiLink: {
       defaultProps: {
+        //@ts-ignore
         component: LinkBehavior,
       },
     },
