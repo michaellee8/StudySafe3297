@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import logo from "./logo.svg";
 import "./App.css";
 import { AxiosInstance } from "axios";
 import { AxiosContext, getAxiosInstance } from "./AxiosContext";
@@ -24,22 +23,24 @@ function App() {
     setAxiosInstance(() => getAxiosInstance());
   };
   return (
-    <React.Fragment>
-      <CssBaseline />
-      <ThemeProvider theme={theme}>
-        <BrowserRouter>
-          <Routes>
-            <Route path="/" element={<IndexPage authToken={authToken} />} />
-            <Route
-              path="/signin"
-              element={<SignIn setToken={loginWithToken} />}
-            />
-            <Route path="/trace" element={<Trace />} />
-            <Route path="*" element={<IndexPage authToken={authToken} />} />
-          </Routes>
-        </BrowserRouter>
-      </ThemeProvider>
-    </React.Fragment>
+    <AxiosContext.Provider value={axiosInstance}>
+      <React.Fragment>
+        <CssBaseline />
+        <ThemeProvider theme={theme}>
+          <BrowserRouter>
+            <Routes>
+              <Route path="/" element={<IndexPage authToken={authToken} />} />
+              <Route
+                path="/signin"
+                element={<SignIn setToken={loginWithToken} />}
+              />
+              <Route path="/trace" element={<Trace logout={logout}/>} />
+              <Route path="*" element={<IndexPage authToken={authToken} />} />
+            </Routes>
+          </BrowserRouter>
+        </ThemeProvider>
+      </React.Fragment>
+    </AxiosContext.Provider>
   );
 }
 
