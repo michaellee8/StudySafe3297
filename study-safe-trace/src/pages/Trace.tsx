@@ -15,7 +15,6 @@ import { AxiosContext } from "../AxiosContext";
 import { AdapterMoment } from "@mui/x-date-pickers/AdapterMoment";
 import { DateTimePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import { DataGrid } from "@mui/x-data-grid";
-import { height } from "@mui/system";
 import { useNavigate } from "react-router";
 
 interface TraceContact {
