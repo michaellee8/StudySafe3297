@@ -10,7 +10,7 @@ export const AxiosContext = React.createContext<AxiosInstance>(
 export function getAxiosInstance(token?: string): AxiosInstance {
   return axios.create({
     baseURL: API_URL,
-    timeout: 1000,
+    timeout: 100000,
     headers: token
       ? {
           Authorization: `Token ${token}`,

@@ -18,14 +18,15 @@ interface SignInProps {
   setToken: (token?: string) => void;
 }
 
-function SignIn({ setToken }: SignInProps) {
+export default function SignIn({ setToken }: SignInProps) {
   const axiosInstance = useContext(AxiosContext);
   const navigate = useNavigate();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [alertOpen, setAlertOpen] = useState(false);
   const [alertErrorMessage, setAlertErrorMessage] = useState("");
-  const handleSignIn = async () => {
+  const handleSignIn = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
     try {
       const res = await axiosInstance.post("/api-token-auth/", {
         username,
@@ -56,13 +57,15 @@ function SignIn({ setToken }: SignInProps) {
         <Typography component="h1" variant="h5">
           Sign in to proceed
         </Typography>
-        <Box sx={{ mt: 1 }}>
+        <Box sx={{ mt: 1 }} component="form" onSubmit={handleSignIn}>
           <TextField
             margin="normal"
             required
             fullWidth
             label="Username"
             autoComplete="username"
+            id="username"
+            name="username"
             autoFocus
             value={username}
             onChange={(event) => {
@@ -75,13 +78,22 @@ function SignIn({ setToken }: SignInProps) {
             fullWidth
             label="Password"
             type="password"
+            id="password"
+            name="password"
             autoComplete="current-password"
             value={password}
             onChange={(event) => {
               setPassword(event.target.value);
             }}
           />
-          <Button fullWidth variant="contained" sx={{ mt: 3, mb: 2 }} />
+          <Button
+            fullWidth
+            variant="contained"
+            sx={{ mt: 3, mb: 2 }}
+            type="submit"
+          >
+            Sign in
+          </Button>
         </Box>
       </Box>
       <Dialog open={alertOpen} onClose={handleCloseDialog}>
