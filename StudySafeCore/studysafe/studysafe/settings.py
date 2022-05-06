@@ -38,7 +38,7 @@ ALLOWED_HOSTS = [
     'studysafetrace.web.app',
 ]
 
-CORS_ALLOWED_HOSTS = [
+CORS_ALLOWED_ORIGINS = [
     'https://studysafe3297-michaellee8.herokuapp.com',
     'http://michaellee8-rookie',
     'http://localhost:3000',
