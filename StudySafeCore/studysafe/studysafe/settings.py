@@ -38,6 +38,15 @@ ALLOWED_HOSTS = [
     'studysafetrace.web.app',
 ]
 
+CORS_ALLOWED_HOSTS = [
+    'http://localhost',
+    'http://localhost:8000',
+    'https://studysafe3297-michaellee8.herokuapp.com',
+    'http://michaellee8-rookie',
+    'http://localhost:3000',
+    'https://studysafetrace.web.app',
+]
+
 # Application definition
 
 INSTALLED_APPS = [
@@ -51,9 +60,11 @@ INSTALLED_APPS = [
     'rest_framework.authtoken',
     'studysafe',
     'drf_spectacular',
+    "corsheaders",
 ]
 
 MIDDLEWARE = [
+    "corsheaders.middleware.CorsMiddleware",
     'django.middleware.security.SecurityMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
