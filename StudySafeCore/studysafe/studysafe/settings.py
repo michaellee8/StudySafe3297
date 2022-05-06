@@ -39,12 +39,14 @@ ALLOWED_HOSTS = [
 ]
 
 CORS_ALLOWED_HOSTS = [
-    'http://localhost',
-    'http://localhost:8000',
     'https://studysafe3297-michaellee8.herokuapp.com',
     'http://michaellee8-rookie',
     'http://localhost:3000',
     'https://studysafetrace.web.app',
+    'http://localhost',
+    'http://127.0.0.1',
+    'http://localhost:8000',
+    'http://127.0.0.1:8000',
 ]
 
 # Application definition
@@ -152,14 +154,6 @@ REST_FRAMEWORK = {
     'PAGE_SIZE': 10,
     'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
 }
-
-CSRF_TRUSTED_ORIGINS = [
-    'https://studysafe3297-michaellee8.herokuapp.com',
-    'http://localhost',
-    'http://127.0.0.1',
-    'http://localhost:8000',
-    'http://127.0.0.1:8000',
-]
 
 SPECTACULAR_SETTINGS = {
     'TITLE': 'StudySafe Core API',
