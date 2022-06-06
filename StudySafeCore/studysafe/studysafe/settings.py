@@ -51,6 +51,8 @@ CORS_ALLOWED_ORIGINS = [
     'https://studysafe3297.fly.dev',
 ]
 
+CSRF_TRUSTED_ORIGINS = CORS_ALLOWED_ORIGINS
+
 # Application definition
 
 INSTALLED_APPS = [
