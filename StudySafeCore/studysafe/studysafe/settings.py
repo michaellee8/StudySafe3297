@@ -36,6 +36,7 @@ ALLOWED_HOSTS = [
     'michaellee8-rookie',
     'localhost:3000',
     'studysafetrace.web.app',
+    'studysafe3297.fly.dev',
 ]
 
 CORS_ALLOWED_ORIGINS = [
@@ -47,6 +48,7 @@ CORS_ALLOWED_ORIGINS = [
     'http://127.0.0.1',
     'http://localhost:8000',
     'http://127.0.0.1:8000',
+    'https://studysafe3297.fly.dev',
 ]
 
 # Application definition
